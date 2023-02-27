@@ -29,6 +29,7 @@ func (c *V4L2_Capability) get(ptr unsafe.Pointer) {
 	c.Version = uint32(p.version)
 	c.Capabilities = uint32(p.capabilities)
 	c.DeviceCaps = uint32(p.device_caps)
+	fmt.Println(c)
 }
 
 func IoctlQueryCap(fd int, argp *V4L2_Capability) error {
