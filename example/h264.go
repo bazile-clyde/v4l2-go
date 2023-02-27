@@ -24,16 +24,21 @@ func main() {
 
 	cam.Width = 800
 	cam.Height = 600
-	cam.PixelFormat = v4l2.GetFourCCByName("YUYV")
+	cam.PixelFormat = v4l2.GetFourCCByName("MJPG")
 	cam.SetFormat()
 	cam.AllocBuffers(4)
 	cam.TurnOn()
 	defer cam.TurnOff()
 
-	f, _ := os.OpenFile("test_image.jpeg", os.O_RDWR|os.O_CREATE, 0644)
+	f, _ := os.OpenFile("/home/pi/v4l2-go/example/test_image.jpeg", os.O_RDWR|os.O_CREATE, 0644)
 	defer f.Close()
 
 	data := cam.Capture()
+	if len(data) == 0 {
+		fmt.Println("no data")
+		return
+	}
+
 	img, err := jpeg.Decode(bytes.NewReader(data))
 	if err = jpeg.Encode(f, img, nil); err != nil {
 		fmt.Println(err)
