@@ -40,7 +40,13 @@ func main() {
 	}
 
 	img, err := jpeg.Decode(bytes.NewReader(data))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	if err = jpeg.Encode(f, img, nil); err != nil {
 		fmt.Println(err)
+		return
 	}
 }
